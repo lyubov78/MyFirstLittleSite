@@ -20,15 +20,7 @@ class MyFormView(TemplateView):
 
             user_agent = request.META.get('HTTP_USER_AGENT')
 
-            data = {
-                'name': form.cleaned_data.get('name'),
-                'email': form.cleaned_data.get('email'),
-                'message': form.cleaned_data.get('message'),
-                'ip': ip,
-                'user_agent': user_agent
-            }
-
-            return JsonResponse(data,
+            return JsonResponse(form.cleaned_data | {'ip': ip, 'user_agent': user_agent},
                                 json_dumps_params={'indent': 4, 'ensure_ascii': False})
 
         context = self.get_context_data(**kwargs)  # Получаем контекст, если он есть
